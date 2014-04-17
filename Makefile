@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall
 DEPS = define.h parameter.h structs.h
-OBJ = main.o common.o read_circuit.o
+OBJ = main.o common.o read_circuit.o hashes.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

@@ -2,8 +2,6 @@
  *      Contains the definition of some common used functions
  * ********************************************************************/
 #include <errno.h>
-#include <string.h>
-
 #include "define.h"
 
 const char* program_name;
