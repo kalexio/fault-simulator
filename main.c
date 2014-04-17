@@ -53,10 +53,10 @@ void option_set (int argc, char* const argv[])
         switch (next_option) {
             case 'c':
                 circuit_name = optarg;
-                break;
+				break;
             case 'f':
                 fault_name = optarg;               
-                break;
+				break;
             case 'h':
                 print_usage (0);
             case '?':

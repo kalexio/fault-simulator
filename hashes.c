@@ -143,7 +143,7 @@ char *astrcpy(char *d, char *s)
     int length;
 
     length=strlen(s);
-    d = (char *)xmalloc(sizeof(length+1));
+    d = (char *)xmalloc((length+1)*sizeof(char));
     strcpy(d,s);
     return(d);
 }

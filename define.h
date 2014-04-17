@@ -11,6 +11,15 @@
 #include "structs.h"
 #include "parameter.h"
 
+#define         AND             0
+#define         NAND            1
+#define         OR              2
+#define         NOR             3
+#define         PI              4
+#define         NOT             5
+#define         PO              6
+
+
 /***********************************************************************
  *              defined in main.c
  * ********************************************************************/
@@ -37,11 +46,15 @@ extern void* xmalloc (size_t);
 *                    defined in read_circuit.c                         *
 ***********************************************************************/
 extern GATEPTR begnet;
-
 extern HASHPTR symbol_tbl[HASHSIZE]; //an array of struct hash pointers
 // struct hash *symbol_tbl[HASHSIZE];  its the same
 
 extern int read_circuit (FILE* , const char*);
+extern int gatetype(char*);
+
+/***********************************************************************
+ *                   defined in hashes.c                               *
+ * ********************************************************************/
 extern void InitHash (HASHPTR*, int);
 extern HASHPTR Find_and_Insert_Hash (HASHPTR*, int, char*, int);
 extern HASHPTR FindHash (HASHPTR*, int, char*, int);
