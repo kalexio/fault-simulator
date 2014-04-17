@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <string.h>
 #include "structs.h"
 #include "parameter.h"
 
@@ -24,13 +25,13 @@ extern const char* fault_name;
 extern const char* program_name;
 
 /* error message for a failed call operation */
-extern void system_error (const char* operation);
+extern void system_error (const char*);
 
 /* Print the error message and end the program */
-extern void error (const char* cause, const char* message);
+extern void error (const char*, const char*);
 
 /* Like malloc, except aborts the program if allocation fails */
-extern void* xmalloc (size_t size);
+extern void* xmalloc (size_t);
 
 /***********************************************************************
 *                    defined in read_circuit.c                         *
@@ -42,6 +43,12 @@ extern HASHPTR symbol_tbl[HASHSIZE]; //an array of struct hash pointers
 
 extern int read_circuit (FILE* , const char*);
 extern void InitHash (HASHPTR*, int);
+extern HASHPTR Find_and_Insert_Hash (HASHPTR*, int, char*, int);
+extern HASHPTR FindHash (HASHPTR*, int, char*, int);
+extern HASHPTR InsertHash (HASHPTR*, int, char*, int);
+extern HASHPTR hashalloc ();
+extern int keyvalue (char*);
+extern char* astrcpy(char*, char*);
 extern char getsymbol (FILE*, char*);
 
 #endif 
