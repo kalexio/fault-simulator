@@ -11,14 +11,6 @@
 #include "structs.h"
 #include "parameter.h"
 
-#define         AND             0
-#define         NAND            1
-#define         OR              2
-#define         NOR             3
-#define         PI              4
-#define         NOT             5
-#define         PO              6
-
 
 /***********************************************************************
  *              defined in main.c

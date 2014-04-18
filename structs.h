@@ -12,6 +12,7 @@ typedef struct HASH {
 } HASHTYPE, *HASHPTR;
 
 typedef struct GATE {
+	int index;
     int fn;
     short ninput;
     struct GATE **inlis;
