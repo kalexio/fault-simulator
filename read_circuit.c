@@ -4,6 +4,7 @@
 
 HASHPTR symbol_tbl[HASHSIZE];
 GATEPTR begnet;
+GATEPTR *net;
 
 
 
@@ -12,6 +13,7 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
     char c;
     int fn, nofanin, i;
     int int_nog, int_nopi, int_nopo;
+    int net_size;
     char symbol[MAXSTRING];
 	register HASHPTR hp;
 	register GATEPTR cg;
@@ -97,12 +99,12 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 							}
 						
 							cg->index = int_nog++;
-							cg->fn=fn;
+							cg->fn = fn;
 							if ((cg->ninput = nofanin) == 0) cg->inlis = NULL;
 							else { cg->inlis = (GATEPTR *)xmalloc(cg->ninput*(sizeof(GATEPTR)));
 								 //ALLOCATE(cg->inlis,GATEPTR,cg->ninput); 
 							}
-							for(i=0; i<nofanin; i++) cg->inlis[i]=pfanin[i];
+							for(i=0; i<nofanin; i++) cg->inlis[i] = pfanin[i];
 							cg->noutput=0;
 							cg->outlis=(GATEPTR *)NULL;
 							

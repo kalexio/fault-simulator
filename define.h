@@ -37,6 +37,7 @@ extern void* xmalloc (size_t);
 /***********************************************************************
 *                    defined in read_circuit.c                         *
 ***********************************************************************/
+extern GATEPTR *net;
 extern GATEPTR begnet;
 extern HASHPTR symbol_tbl[HASHSIZE]; //an array of struct hash pointers
 // struct hash *symbol_tbl[HASHSIZE];  its the same
