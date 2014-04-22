@@ -5,15 +5,16 @@
 HASHPTR symbol_tbl[HASHSIZE];
 GATEPTR begnet;
 GATEPTR *net;
-int *primaryin,*primaryout;
-int nog,nopi,nopo;
+int *primaryin, *primaryout;
+int nog, nopi, nopo;
 
 
 
 int read_circuit (FILE *circuit_fd, const char* circuit_name)
 {
     char c;
-    int fn, nofanin, i;
+    int nerrs = 0;
+    int fn, nofanin, i, j;
     int int_nog, int_nopi, int_nopo;
     int net_size;
     char symbol[MAXSTRING];
@@ -116,6 +117,8 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 			}
     }
     
+    
+    
     net_size = int_nog + int_nopo;
     //printf(" net = %d\n",net_size);
     
@@ -134,11 +137,9 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 			return(-1);
 		}
 		
-		//index ksekinaei apo to mhden giati einai index se pinaka
-		//enw to nog ksekinaei apo to 1 kai dhlwnei plhthos pylwn
 		net[cg->index] = cg;
 		nog++;
-		//printf("index = %d kai nog = %d\n",cg->index,nog);
+
     }
    
    
@@ -149,16 +150,81 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 		return(-1);
     }
     
-    /*  memory data check
-    for (i = 0; i<net_size; i++) {
-		if (net[i] != NULL) printf(" einai h pulh= %s kai exei fanin= %d \n",net[i]->symbol->symbol,net[i]->ninput);
+
+	for (i = 0; i<nog; i++) {
+		cg = net[i];
+
+		for (j = 0; j<cg->ninput; j++) cg->inlis[j]->noutput++;
+
+		if (cg->fn == PI) primaryin[nopi++] = i; 
+    }
+    
+    
+    for (i = 0; i<int_nopo; i++) primaryout[nopo++] = po_gates[i]->index;
+    
+    
+    for (i = 0; i<nog; i++) {
+		cg = net[i];
+		if (cg->noutput>0) {
+		    cg->outlis = (GATEPTR *)xmalloc(cg->noutput*(sizeof(GATEPTR)));	 
+    	    //maxfout = MAX(maxfout,cg->noutput);
+    	    //cg->noutput= 0;
+        }
+    }
+
+
+    for (i = 0; i<nog; i++) net[i]->noutput = 0;
+
+    
+	for (i = 0; i<nog; i++) {
+		cg = net[i];
+
+		for (j = 0; j<cg->ninput; j++) {
+			cg->inlis[j]->outlis[(cg->inlis[j]->noutput)++] = cg;
+			//pg = cg->inlis[j];
+			//pg->outlis[pg->noutput++] = cg;
+		}
 	}
-    */
-    
-    
-    
-    
-	return 0;
+		
+	
+	for (i = 0; i<nog; i++) {
+		cg = net[i];
+		if (cg->noutput > 0) continue;
+		
+		for (j = 0; j<int_nopo; j++)
+			if (cg == po_gates[j]) break;
+
+		if (j == int_nopo) {
+			fprintf(stderr, "Error: floating output '%s' detected!\n", cg->symbol->symbol); 
+			nerrs++;
+		}
+	}
+
+
+
+	/* Memory data check */
+    for (i = 0; i<nog; i++) {
+		cg = net[i];
+		printf(" einai h pulh= %s me fanin= %d kai fanout= %d\n",cg->symbol->symbol,cg->ninput,cg->noutput);
+		for (j = 0; j<cg->ninput; j++) {
+			printf("ta fanin ths einai oi %s\n",cg->inlis[j]->symbol->symbol);	}
+	    for (j = 0; j<cg->noutput; j++) {
+			printf("ta fanout ths einai oi %s\n",cg->outlis[j]->symbol->symbol); }
+		printf("\n");
+	}
+	
+	
+	 
+   
+	if (nerrs > 0) {
+		fprintf(stderr, "Workaround. You have to take one of the two actions:\n");
+		fprintf(stderr, "   1. Remove all the floating output and associated gates, or\n");
+		fprintf(stderr, "   2. Make each floating output a primary output.\n");
+		return(-1);
+	}
+
+	if (int_nog == nog) return(nog);
+	else return(-1);
 }
 
 int gatetype(char *symbol)
