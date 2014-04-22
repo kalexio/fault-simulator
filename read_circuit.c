@@ -34,7 +34,7 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 				
 				case '=' :
 					hp = Find_and_Insert_Hash (symbol_tbl, HASHSIZE, symbol, 0);
-					printf("in read: hp =  %s \n", symbol);
+					//printf("in read: hp =  %s \n", symbol);
 					
 					if ((cg = hp->pnode) == NULL) {
 						cg = (GATETYPE *)xmalloc(sizeof(GATETYPE)); 
@@ -81,11 +81,11 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 						case PI:
 							int_nopi++;
 							pg->index = int_nog++;
-							pg->ninput=0;
+							pg->ninput = 0;
 							pg->inlis=(GATEPTR *)NULL;
-							pg->fn=PI;
-							pg->noutput=0;
-							pg->outlis=(GATEPTR *)NULL;
+							pg->fn = PI;
+							pg->noutput = 0;
+							pg->outlis = (GATEPTR *)NULL;
 						break;
 						
 						case PO:
@@ -104,13 +104,12 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 							cg->fn = fn;
 							if ((cg->ninput = nofanin) == 0) cg->inlis = NULL;
 							else { cg->inlis = (GATEPTR *)xmalloc(cg->ninput*(sizeof(GATEPTR)));
-								 //ALLOCATE(cg->inlis,GATEPTR,cg->ninput); 
 							}
-							for(i=0; i<nofanin; i++) cg->inlis[i] = pfanin[i];
-							cg->noutput=0;
-							cg->outlis=(GATEPTR *)NULL;
+							for (i = 0; i<nofanin; i++) cg->inlis[i] = pfanin[i];
+							cg->noutput = 0;
+							cg->outlis = (GATEPTR *)NULL;
 							
-							nofanin=0;
+							nofanin = 0;
 							cg = (GATEPTR) NULL;
 							break; 
 					}		
@@ -118,6 +117,8 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
     }
     
     net_size = int_nog + int_nopo;
+    //printf(" net = %d\n",net_size);
+    
     net = (GATEPTR *)xmalloc(net_size*(sizeof(GATEPTR)));
     primaryin = (int *)xmalloc(int_nopi*(sizeof(int)));
     primaryout = (int *)xmalloc(int_nopo*(sizeof(int)));
@@ -133,9 +134,11 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 			return(-1);
 		}
 		
+		//index ksekinaei apo to mhden giati einai index se pinaka
+		//enw to nog ksekinaei apo to 1 kai dhlwnei plhthos pylwn
 		net[cg->index] = cg;
 		nog++;
-		printf("index = %d kai nog = %d\n",cg->index,nog);
+		//printf("index = %d kai nog = %d\n",cg->index,nog);
     }
    
    
@@ -145,6 +148,15 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 		fprintf(stderr,"Error in read_circuit\n");
 		return(-1);
     }
+    
+    /*  memory data check
+    for (i = 0; i<net_size; i++) {
+		if (net[i] != NULL) printf(" einai h pulh= %s kai exei fanin= %d \n",net[i]->symbol->symbol,net[i]->ninput);
+	}
+    */
+    
+    
+    
     
 	return 0;
 }

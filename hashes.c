@@ -16,13 +16,13 @@ HASHPTR Find_and_Insert_Hash (HASHPTR symbol_tbl[], int size, char symbol[] , in
 {
 	HASHPTR hp;
 	
-    printf("in find and insert!\n");
+    //printf("in find and insert!\n");
 	if (key == 0) key = keyvalue (symbol);
 	
-    printf("key = %d\n",key);
+    //printf("key = %d\n",key);
     
 	if ((hp = FindHash (symbol_tbl, size, symbol, key)) == NULL) {
-		printf( "i didnt find it\n");
+		//printf( "i didnt find it\n");
 	    hp=InsertHash(symbol_tbl,size,symbol,key);
     }
    return(hp);	
@@ -33,16 +33,16 @@ HASHPTR FindHash(HASHPTR symbol_tbl[], int size, char symbol[], int key)
 	HASHPTR hp;
 	int h;
     
-    printf("in find !\n");
+    //printf("in find !\n");
     if (key == 0) key = keyvalue (symbol);
-    printf("key = %d\n",key);
+    //printf("key = %d\n",key);
     h = key % size;
     hp = symbol_tbl[h];
 
     while (hp != NULL) {
 		if (key == hp->key)
 			if (strcmp (hp->symbol, symbol) == 0) {
-				 printf(" i found it\n");
+				 //printf(" i found it\n");
 				 break;
 		    }
         hp=hp->next; 
@@ -56,13 +56,13 @@ HASHPTR InsertHash (HASHPTR symbol_tbl[], int size, char symbol[], int key)
     register HASHPTR hp;
     register int h;
 
-    printf("in insert !\n");
+    //printf("in insert !\n");
     if (key ==0) key = keyvalue (symbol);
-    printf("key = %d\n",key);
+    //printf("key = %d\n",key);
     h = key % size;
 
     hp = hashalloc(); 
-    printf("Created!\n");
+    //printf("Created!\n");
     
 	hp->key = key;
 	hp->next = symbol_tbl[h];//την πρωτη φορα θα δειξει σε NULL meta ayto den allazei
