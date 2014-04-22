@@ -39,6 +39,8 @@ extern void* xmalloc (size_t);
 ***********************************************************************/
 extern GATEPTR *net;
 extern GATEPTR begnet;
+extern int *primaryin,*primaryout;
+extern int nog,nopi,nopo;
 extern HASHPTR symbol_tbl[HASHSIZE]; //an array of struct hash pointers
 // struct hash *symbol_tbl[HASHSIZE];  its the same
 

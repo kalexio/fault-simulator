@@ -5,6 +5,8 @@
 HASHPTR symbol_tbl[HASHSIZE];
 GATEPTR begnet;
 GATEPTR *net;
+int *primaryin,*primaryout;
+int nog,nopi,nopo;
 
 
 
@@ -60,7 +62,7 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 						pg->next = begnet;
 						begnet = pg;
 					}
-					pfanin[nofanin++]=pg;
+					pfanin[nofanin++] = pg;
 				break;
 					
 				case ')':				
@@ -115,11 +117,34 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 			}
     }
     
+    net_size = int_nog + int_nopo;
+    net = (GATEPTR *)xmalloc(net_size*(sizeof(GATEPTR)));
+    primaryin = (int *)xmalloc(int_nopi*(sizeof(int)));
+    primaryout = (int *)xmalloc(int_nopo*(sizeof(int)));
     
+    nog=nopi=nopo=0;
     
-    
-    
-    
+    for (cg = begnet; cg != NULL; cg = cg->next) {
+		if (cg->index < 0) {
+			fprintf(stderr,"Error: floating net %s\n",cg->symbol->symbol);
+			fprintf(stderr, "Workaround. You have to take one of the two actions:\n");
+			fprintf(stderr, "   1. Remove all the floating input and associated gates, or\n");
+			fprintf(stderr, "   2. Make each floating input a primary output.\n");
+			return(-1);
+		}
+		
+		net[cg->index] = cg;
+		nog++;
+		printf("index = %d kai nog = %d\n",cg->index,nog);
+    }
+   
+   
+	for (i = nog; i<net_size; i++) net[i] = (GATEPTR)NULL;
+
+    if (nog != int_nog) {
+		fprintf(stderr,"Error in read_circuit\n");
+		return(-1);
+    }
     
 	return 0;
 }
