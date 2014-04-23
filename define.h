@@ -18,6 +18,7 @@
 extern FILE *circuit_fd, *fault_fd;
 extern const char* circuit_name;
 extern const char* fault_name;
+extern int nodummy;
 
 
 /***********************************************************************
@@ -58,5 +59,10 @@ extern HASHPTR hashalloc ();
 extern int keyvalue (char*);
 extern char* astrcpy(char*, char*);
 extern char getsymbol (FILE*, char*);
+
+/***********************************************************************
+ *                     defined in structures.c
+ * ********************************************************************/
+ extern int add_PO ();
 
 #endif 

@@ -3,6 +3,7 @@
 
 const char* circuit_name;
 const char* fault_name;
+int nodummy;
 
 FILE *circuit_fd, *fault_fd;
 
@@ -28,7 +29,7 @@ static void print_usage (int is_error);
 
 int main (int argc, char* const argv[])
 {
-    
+	nodummy = 0;
     program_name = argv[0];
     option_set(argc,argv);
     handle_files (circuit_name, fault_name);
@@ -37,10 +38,21 @@ int main (int argc, char* const argv[])
         system_error ("read_circuit");
     fclose (circuit_fd);
     
+    if (nog<=0 || nopi<=0 || nopo<=0) {
+		fprintf(stderr,"Error in circuit file: #PI=%d, #PO=%d, #GATES=%d\n",nopi,nopo,nog);
+		abort();
+	}
+    
+    nodummy = add_PO();
+    
     
     
     return 0;
 }
+
+
+
+
 
 /* Gets the user input arguments */
 void option_set (int argc, char* const argv[])
