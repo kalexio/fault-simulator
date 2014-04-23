@@ -64,5 +64,9 @@ extern char getsymbol (FILE*, char*);
  *                     defined in structures.c
  * ********************************************************************/
  extern int add_PO ();
+ extern int maxlevel;
+ extern int compute_level ();
+ extern STACKTYPE stack1, stack2;
+ extern void allocate_stacks();
 
 #endif 

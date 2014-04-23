@@ -199,20 +199,6 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 			nerrs++;
 		}
 	}
-
-
-
-	/* Memory data check */
-    /*for (i = 0; i<nog; i++) {
-		cg = net[i];
-		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d \n",cg->symbol->symbol,cg->ninput,cg->noutput,cg->fn);
-		for (j = 0; j<cg->ninput; j++) {
-			printf("ta fanin ths einai oi %s\n",cg->inlis[j]->symbol->symbol);	}
-	    for (j = 0; j<cg->noutput; j++) {
-			printf("ta fanout ths einai oi %s\n",cg->outlis[j]->symbol->symbol); }
-		printf("\n");
-	} */
-	
 	 
    
 	if (nerrs > 0) {
@@ -226,7 +212,7 @@ int read_circuit (FILE *circuit_fd, const char* circuit_name)
 	else return(-1);
 }
 
-int gatetype(char *symbol)
+int gatetype (char *symbol)
 {
 	int fn;
 	

@@ -44,6 +44,8 @@ int main (int argc, char* const argv[])
 	}
     
     nodummy = add_PO();
+    allocate_stacks();
+    maxlevel = compute_level();
     
     
     

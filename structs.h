@@ -14,6 +14,8 @@ typedef struct HASH {
 typedef struct GATE {
 	int index;
     int fn;
+    short level;
+    int changed;
     short ninput;
     struct GATE **inlis;
     short noutput;
@@ -22,7 +24,10 @@ typedef struct GATE {
     struct GATE *next;
 } GATETYPE, *GATEPTR;
 
-
+typedef struct STACK {			
+	int last;
+	struct GATE **list;
+} STACKTYPE, *STACKPTR;
 
 
 #endif

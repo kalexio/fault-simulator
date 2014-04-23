@@ -16,6 +16,8 @@
 #define         NOT             5
 #define         PO              6
 #define 		MAXFIN          15      /* number of fanin lines */
+#define         FALSE           0       
+#define         TRUE            1
 //#define 		SPAREGATES      100
 
 #endif
