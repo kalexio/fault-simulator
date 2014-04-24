@@ -19,7 +19,8 @@ void error (const char* cause, const char* message)
     exit(1);
 }
 
-void* xmalloc (size_t size) {
+void* xmalloc (size_t size)
+{
     void* ptr = malloc (size);
     if (ptr == NULL) {
         fprintf (stderr, "Error in dynamic memory allocation - aborting\n");
@@ -27,4 +28,10 @@ void* xmalloc (size_t size) {
     }
     else
         return ptr;
+}
+
+void xfree (void* ptr) 
+{
+	free(ptr);
+	ptr = NULL;
 }

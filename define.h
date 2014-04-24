@@ -20,6 +20,9 @@ extern const char* circuit_name;
 extern const char* fault_name;
 extern int nodummy;
 
+extern void option_set (int argc, char* const argv[]);
+extern void handle_files (const char*, const char*);
+
 
 /***********************************************************************
 *                     defined in common.c                              *
@@ -34,6 +37,7 @@ extern void error (const char*, const char*);
 
 /* Like malloc, except aborts the program if allocation fails */
 extern void* xmalloc (size_t);
+extern void xfree (void*);
 
 /***********************************************************************
 *                    defined in read_circuit.c                         *
@@ -65,8 +69,11 @@ extern char getsymbol (FILE*, char*);
  * ********************************************************************/
  extern int add_PO ();
  extern int maxlevel;
- extern int compute_level ();
+ extern STACKPTR event_list;
  extern STACKTYPE stack1, stack2;
+ extern int compute_level ();
  extern void allocate_stacks();
+ extern void allocate_event_list();
+ extern void levelize();
 
 #endif 

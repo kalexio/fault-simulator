@@ -7,9 +7,6 @@ int nodummy;
 
 FILE *circuit_fd, *fault_fd;
 
-void option_set (int argc, char* const argv[]);
-void handle_files (const char*, const char*);
-
 /* Description of long options for get_opt long */
 static const struct option long_options[] = {
     { "help",       0, NULL, 'h' },
@@ -26,6 +23,9 @@ static const char* const usage_template =
     "   -f, --fault FILE    Read the fault file\n";
 
 static void print_usage (int is_error);
+
+
+
 
 int main (int argc, char* const argv[])
 {
@@ -46,6 +46,12 @@ int main (int argc, char* const argv[])
     nodummy = add_PO();
     allocate_stacks();
     maxlevel = compute_level();
+    xfree(stack1.list);
+	xfree(stack2.list); 
+    printf("the max level = %d\n",maxlevel);
+    allocate_event_list();
+    levelize();
+    xfree(event_list);
     
     
     

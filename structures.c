@@ -11,7 +11,9 @@
 #define copy(s1,s2,i) s2.last = s1.last;\
 		      for (i =s1.last; i>=0; i--) s2.list[i]=s1.list[i]
 
+
 STACKTYPE stack1, stack2;
+STACKPTR event_list;
 int maxlevel;
 
 
@@ -67,18 +69,7 @@ int add_PO ()
 		primaryout[i] = nog;
         net[nog++] = last;
     }
-    
-    /* Memory data check */
-    /*for (i = 0; i<nog; i++) {
-		gut = net[i];
-		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d \n",gut->symbol->symbol,gut->ninput,gut->noutput,gut->fn);
-		for (j = 0; j<gut->ninput; j++) {
-			printf("ta fanin ths einai oi %s\n",gut->inlis[j]->symbol->symbol);	}
-	    for (j = 0; j<gut->noutput; j++) {
-			printf("ta fanout ths einai oi %s\n",gut->outlis[j]->symbol->symbol); }
-		printf("\n");
-	} */
-    
+        
 	return (nopo);
 	
 }
@@ -86,7 +77,7 @@ int add_PO ()
 
 int compute_level () 
 {
-	register int i, j, flag=1;
+	register int i, flag=1;
 	GATEPTR cg,ng;	
 	
 	for (i = 0; i<nog; i++) {
@@ -140,20 +131,72 @@ int compute_level ()
 		cg = net[i];
 		if ( cg->level > maxlevel) maxlevel = cg->level;
 	}
-	
-	/* Memory data check */
-    for (i = 0; i<nog; i++) {
-		cg = net[i];
-		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d level=%d \n",cg->symbol->symbol,cg->ninput,cg->noutput,cg->fn,cg->level);
-		for (j = 0; j<cg->ninput; j++) {
-			printf("ta fanin ths einai oi %s\n",cg->inlis[j]->symbol->symbol);	}
-	    for (j = 0; j<cg->noutput; j++) {
-			printf("ta fanout ths einai oi %s\n",cg->outlis[j]->symbol->symbol); }
-		printf("\n");
-	} 
-	
+
 	return (maxlevel+1);
 	
 }
 
 
+void allocate_event_list()
+{
+    register int i;
+
+	event_list = (STACKTYPE *)xmalloc((maxlevel)*sizeof(STACKTYPE));
+	for (i = 0; i<maxlevel; i++) clear(event_list[i]);
+
+	for (i = 0; i<nog; i++) event_list[net[i]->level].last++;
+	
+	for(i=0;i<maxlevel;i++) {
+		event_list[i].list = (GATEPTR *)xmalloc((event_list[i].last+1)*sizeof(GATEPTR));
+		clear(event_list[i]);
+	}
+}
+
+
+void levelize()
+{
+	register int i, j, new=0;
+	GATEPTR cg;
+
+	for (i = 0; i<nog; i++) push(event_list[net[i]->level],net[i]);
+	
+
+	for (i =0 ; i<maxlevel; i++) {
+	
+		for (j = 0; j<=event_list[i].last; j++) {
+			cg = event_list[i].list[j];
+			cg->index = new++;
+		}
+		clear(event_list[i]);
+	}
+    
+    
+	for (i = 0; i<nopi; i++)	 primaryin[i] = net[primaryin[i]]->index;
+	
+	for (i = 0; i<nopo; i++)  primaryout[i] = net[primaryout[i]]->index;
+
+	i = 0;
+	while (i<nog) {
+		if (i == net[i]->index) i++; 
+		else {		
+			cg = net[i];
+			net[i] = net[cg->index];
+			net[cg->index] = cg;
+		}
+	}
+	
+	
+	
+	/* Memory data check */
+	for (i = 0; i<nog; i++) {
+		cg = net[i];
+		printf("\nseira i=%d index=%d\n",i,cg->index);
+		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d level=%d \n",cg->symbol->symbol,cg->ninput,cg->noutput,cg->fn,cg->level);
+		for (j = 0; j<cg->ninput; j++) {
+			printf("ta fanin ths einai oi %s\n",cg->inlis[j]->symbol->symbol);	}
+	    for (j = 0; j<cg->noutput; j++) {
+			printf("ta fanout ths einai oi %s\n",cg->outlis[j]->symbol->symbol); }
+	}
+	
+	
+}

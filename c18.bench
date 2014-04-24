@@ -1,0 +1,20 @@
+# 
+# 
+# 
+# 
+# 
+# 
+INPUT(G1)
+INPUT(G2)
+INPUT(G3)
+INPUT(G4)
+INPUT(G7)
+
+OUTPUT(G)
+OUTPUT(GG)
+
+G5 = nand(G1, G2)
+G6 = nand(G3, G4)
+GG = not(G7)
+G = nand(G5, G6)
+
