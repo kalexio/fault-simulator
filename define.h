@@ -71,6 +71,7 @@ extern char getsymbol (FILE*, char*);
  extern int maxlevel;
  extern STACKPTR event_list;
  extern STACKTYPE stack1, stack2;
+ extern int *levels;
  extern int compute_level ();
  extern void allocate_stacks();
  extern void allocate_event_list();
