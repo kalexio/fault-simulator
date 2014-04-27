@@ -15,13 +15,14 @@
 /***********************************************************************
  *              defined in main.c
  * ********************************************************************/
-extern FILE *circuit_fd, *fault_fd;
+extern FILE *circuit_fd, *fault_fd, *vectors_fd;
 extern const char* circuit_name;
 extern const char* fault_name;
+extern const char* vectors_name;
 extern int nodummy;
 
 extern void option_set (int argc, char* const argv[]);
-extern void handle_files (const char*, const char*);
+extern void handle_files (const char*,const char*,const char*);
 
 
 /***********************************************************************
@@ -65,7 +66,7 @@ extern char* astrcpy(char*, char*);
 extern char getsymbol (FILE*, char*);
 
 /***********************************************************************
- *                     defined in structures.c
+ *                     defined in structures.c						   *
  * ********************************************************************/
  extern int add_PO ();
  extern int maxlevel;
@@ -77,4 +78,9 @@ extern char getsymbol (FILE*, char*);
  extern void allocate_event_list();
  extern void levelize();
 
+/***********************************************************************
+ * 						defined in read_vectors.c					   *
+ * ********************************************************************/
+extern void getvector (FILE* , char*);
+extern int read_vectors (FILE *, const char*);
 #endif 

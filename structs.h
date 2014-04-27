@@ -17,6 +17,7 @@ typedef struct GATE {
     short level;
     int changed;
     short ninput;
+    struct THREAD *threadData;
     struct GATE **inlis;
     short noutput;
     struct GATE **outlis;
@@ -29,5 +30,9 @@ typedef struct STACK {
 	struct GATE **list;
 } STACKTYPE, *STACKPTR;
 
+typedef struct THREAD {
+	int offset;
+	int *input;
+} THREADTYPE, *THREADPTR;
 
 #endif

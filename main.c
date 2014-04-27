@@ -3,23 +3,26 @@
 
 const char* circuit_name;
 const char* fault_name;
+const char* vectors_name;
 int nodummy;
 
-FILE *circuit_fd, *fault_fd;
+FILE *circuit_fd, *fault_fd, *vectors_fd;
 
 /* Description of long options for get_opt long */
 static const struct option long_options[] = {
     { "help",       0, NULL, 'h' },
     { "circuit",    1, NULL, 'c' },
+    { "vector",     1, NULL, 'v' },
     { "fault",      1, NULL, 'f' }
 };
 
-static const char* const short_options = "hc:f:";
+static const char* const short_options = "hc:v:f:";
 
 static const char* const usage_template = 
     "Usage: %s [ options ]\n"
     "   -h, --help          Print this information\n"
     "   -c, --circuit FILE  Read the circuit file\n"
+    "   -v, --vectors FILE  Read the test-pattern file\n"
     "   -f, --fault FILE    Read the fault file\n";
 
 static void print_usage (int is_error);
@@ -31,8 +34,10 @@ int main (int argc, char* const argv[])
 {
 	nodummy = 0;
     program_name = argv[0];
+    
     option_set(argc,argv);
-    handle_files (circuit_name, fault_name);
+    handle_files (circuit_name,vectors_name, fault_name);
+
 
     if (read_circuit (circuit_fd, circuit_name) < 0)
         system_error ("read_circuit");
@@ -46,12 +51,14 @@ int main (int argc, char* const argv[])
     nodummy = add_PO();
     allocate_stacks();
     maxlevel = compute_level();
-    xfree(stack1.list);
-	xfree(stack2.list); 
+    xfree(stack1.list); //
+	xfree(stack2.list); //
     printf("the max level = %d\n",maxlevel);
     allocate_event_list();
     levelize();
-    xfree(event_list);
+    xfree(event_list); //
+    
+    
     
     
     
@@ -61,8 +68,6 @@ int main (int argc, char* const argv[])
 
 
 
-
-/* Gets the user input arguments */
 void option_set (int argc, char* const argv[])
 {	
 	int next_option;
@@ -73,6 +78,9 @@ void option_set (int argc, char* const argv[])
         switch (next_option) {
             case 'c':
                 circuit_name = optarg;
+				break;
+			case 'v':
+				vectors_name = optarg;
 				break;
             case 'f':
                 fault_name = optarg;               
@@ -95,9 +103,11 @@ void option_set (int argc, char* const argv[])
         print_usage (1);
 }
 
-void handle_files (const char* circuit_name, const char* fault_name)
+
+
+
+void handle_files (const char* circuit_name,const char* vectors_name, const char* fault_name)
 {
-	
 	if (circuit_name != NULL) {
         printf("circuit file= %s\n",circuit_name);
         circuit_fd = fopen (circuit_name, "r");
@@ -109,12 +119,23 @@ void handle_files (const char* circuit_name, const char* fault_name)
 		exit(1);
 	}
 	
-    if (fault_name != NULL)
-		printf("fault file= %s\n", fault_name);
-        fault_fd = fopen (fault_name, "r");
-		if (circuit_fd == NULL)
+    if (vectors_name != NULL) {
+		printf("vector file= %s\n", vectors_name);
+        vectors_fd = fopen (vectors_name, "r");
+		if (vectors_fd == NULL)
 			system_error ("fopen");
+    }
+    else if ((vectors_name == NULL) & (fault_name != NULL)) {
+		fprintf (stderr, "You must give a pattern file first in order to do fault simulation\n");
+		exit(1);
+	}
+	
+	if (fault_name != NULL)
+		printf("fault file= %s\n", fault_name);
 }
+
+
+
 
 static void print_usage (int is_error)
 {
