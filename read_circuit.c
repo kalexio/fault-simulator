@@ -10,7 +10,7 @@ int nog, nopi, nopo;
 
 
 
-int read_circuit (FILE *circuit_fd, const char* circuit_name)
+int read_circuit (FILE *circuit_fd)
 {
     char c;
     int nerrs = 0;

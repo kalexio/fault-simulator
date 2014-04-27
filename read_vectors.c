@@ -6,48 +6,64 @@
 #define is_white_space(c) (c == ' ' || c == '\n' || c == '\t')
 #define is_delimiter(c) (c == ':')
 
+char **test_set;
+
+int read_vectors (FILE *vectors_fd) 
+{
+	register char c;
+    char symbol[levels[0]];
+    int i = 0;
+    
+    
+    test_set = xmalloc(MAXSTRING*sizeof(char *));
+    
+	while ((c = getvector (vectors_fd, symbol)) != EOF) {
+		//printf("symbol =%s\n",symbol);
+		test_set[i] = xmalloc(levels[0]*sizeof(char));
+		strcpy(test_set[i],symbol);
+		//printf("test   =%s\n",test_set[i]);
+		i++;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 
 
-int read_vectors (FILE *vectors_fd, const char* vectors_name) {
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-
-
-
- return 0;
+	return 0;
 	
 }
 
 
-
-void getvector (FILE* file, char* s)
+char getvector (FILE* file, char* s)
 {
-   	register char c;
-    int comm = 0;
+	register char c;
+    int flag = 0;
 
     while ((c = getc (file)) != EOF) {
-		if (is_comment(c)) { 
-			comm = 1; 
-			continue; 
-		}
-		if (comm == 1) {
-			if(c == '\n') comm = 0;
+		
+		if (!flag) {
+			if (is_delimiter(c)) flag = 1;
 			continue;
-		}	
-        if (is_white_space(c)) continue;
-        if (is_delimiter(c)) break;
-        *s++ = c;
-    }
-    *s = '\0';
+		}
+		else {
+			if ( c != '\n') {
+				*s++ = c;
+			}
+			else if ( c == '\n') {
+				flag = 0;
+				break;
+			}
+		}
+	}
+	
+	*s = '\0';
+    return(c);
 }
 
 

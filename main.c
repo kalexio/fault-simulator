@@ -39,7 +39,7 @@ int main (int argc, char* const argv[])
     handle_files (circuit_name,vectors_name);
 
 
-    if (read_circuit (circuit_fd, circuit_name) < 0)
+    if (read_circuit (circuit_fd) < 0)
         system_error ("read_circuit");
     fclose (circuit_fd);
     
@@ -62,10 +62,11 @@ int main (int argc, char* const argv[])
     vectors_fd = fopen (vectors_name, "r");
 	if (vectors_fd == NULL)
 		system_error ("fopen");
-	
-	
 		
 	//synexiea simulation<------------------------------------
+	read_vectors (vectors_fd);
+	
+	
 	
 	
 	

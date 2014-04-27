@@ -50,7 +50,7 @@ extern int nog,nopi,nopo;
 extern HASHPTR symbol_tbl[HASHSIZE]; //an array of struct hash pointers
 // struct hash *symbol_tbl[HASHSIZE];  its the same
 
-extern int read_circuit (FILE* , const char*);
+extern int read_circuit (FILE*);
 extern int gatetype(char*);
 
 /***********************************************************************
@@ -81,6 +81,7 @@ extern char getsymbol (FILE*, char*);
 /***********************************************************************
  * 						defined in read_vectors.c					   *
  * ********************************************************************/
-extern void getvector (FILE* , char*);
-extern int read_vectors (FILE *, const char*);
+extern char getvector (FILE* , char*);
+extern int read_vectors (FILE *);
+extern char **test_set;
 #endif 
