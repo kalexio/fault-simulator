@@ -193,7 +193,7 @@ void levelize()
 	
 	
 	/* Memory data check */
-	for (i = 0; i<nog; i++) {
+	/*for (i = 0; i<nog; i++) {
 		cg = net[i];
 		printf("\nseira i=%d index=%d\n",i,cg->index);
 		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d level=%d \n",cg->symbol->symbol,cg->ninput,cg->noutput,cg->fn,cg->level);
@@ -201,7 +201,7 @@ void levelize()
 			printf("ta fanin ths einai oi %s\n",cg->inlis[j]->symbol->symbol);	}
 	    for (j = 0; j<cg->noutput; j++) {
 			printf("ta fanout ths einai oi %s\n",cg->outlis[j]->symbol->symbol); }
-	}
+	}*/
 	
 	
 }

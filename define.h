@@ -22,7 +22,7 @@ extern const char* vectors_name;
 extern int nodummy;
 
 extern void option_set (int argc, char* const argv[]);
-extern void handle_files (const char*,const char*,const char*);
+extern void handle_files (const char*,const char*);
 
 
 /***********************************************************************

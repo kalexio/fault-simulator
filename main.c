@@ -36,7 +36,7 @@ int main (int argc, char* const argv[])
     program_name = argv[0];
     
     option_set(argc,argv);
-    handle_files (circuit_name,vectors_name, fault_name);
+    handle_files (circuit_name,vectors_name);
 
 
     if (read_circuit (circuit_fd, circuit_name) < 0)
@@ -56,12 +56,36 @@ int main (int argc, char* const argv[])
     printf("the max level = %d\n",maxlevel);
     allocate_event_list();
     levelize();
-    xfree(event_list); //
+    xfree(event_list); 
+    
+	printf("opening vectors file= %s\n",vectors_name);
+    vectors_fd = fopen (vectors_name, "r");
+	if (vectors_fd == NULL)
+		system_error ("fopen");
+	
+	
+		
+	//synexiea simulation<------------------------------------
+	
+	
+	
+	if ( fault_name == NULL ) {
+		printf("We are done\n");
+		return 0;
+	}
+	
+	printf("opening fault file= %s\n",fault_name);
+    vectors_fd = fopen (vectors_name, "r");
+	if (vectors_fd == NULL)
+		system_error ("fopen");
+	
+	
+		
+	//	synexeia simulation<-----------------------------------
     
     
     
-    
-    
+    printf("We are done\n");
     return 0;
 }
 
@@ -106,32 +130,19 @@ void option_set (int argc, char* const argv[])
 
 
 
-void handle_files (const char* circuit_name,const char* vectors_name, const char* fault_name)
+void handle_files (const char* circuit_name,const char* vectors_name)
 {
-	if (circuit_name != NULL) {
-        printf("circuit file= %s\n",circuit_name);
+	if ((circuit_name != NULL) & (vectors_name != NULL) ) {
+        printf("opening circuit file= %s\n",circuit_name);
         circuit_fd = fopen (circuit_name, "r");
 		if (circuit_fd == NULL)
 			system_error ("fopen");
 	}
 	else {
-		fprintf (stderr, "You must give a circuit file first\n");
+		fprintf (stderr, "You must give a circuit file and a test pattern file first\n");
 		exit(1);
 	}
-	
-    if (vectors_name != NULL) {
-		printf("vector file= %s\n", vectors_name);
-        vectors_fd = fopen (vectors_name, "r");
-		if (vectors_fd == NULL)
-			system_error ("fopen");
-    }
-    else if ((vectors_name == NULL) & (fault_name != NULL)) {
-		fprintf (stderr, "You must give a pattern file first in order to do fault simulation\n");
-		exit(1);
-	}
-	
-	if (fault_name != NULL)
-		printf("fault file= %s\n", fault_name);
+			
 }
 
 
