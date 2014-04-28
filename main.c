@@ -35,10 +35,13 @@ int main (int argc, char* const argv[])
 	nodummy = 0;
     program_name = argv[0];
     
+    /* Get the input arguments */
     option_set(argc,argv);
+    
+    /* Handle the input files */
     handle_files (circuit_name,vectors_name);
 
-
+	/* Read the circuit file and make the structures */
     if (read_circuit (circuit_fd) < 0)
         system_error ("read_circuit");
     fclose (circuit_fd);
@@ -48,23 +51,37 @@ int main (int argc, char* const argv[])
 		abort();
 	}
     
+    /* Add a gate for the output stage as you did for the input stage */
     nodummy = add_PO();
+    
+    /* Compute the levels of the circuit */
     allocate_stacks();
     maxlevel = compute_level();
-    xfree(stack1.list); //
-	xfree(stack2.list); //
+    xfree(stack1.list); 
+	xfree(stack2.list); 
+	
     printf("the max level = %d\n",maxlevel);
+    
+    /* Computes the level of each gate */
     allocate_event_list();
     levelize();
     xfree(event_list); 
+    
     
 	printf("opening vectors file= %s\n",vectors_name);
     vectors_fd = fopen (vectors_name, "r");
 	if (vectors_fd == NULL)
 		system_error ("fopen");
 		
-	//synexiea simulation<------------------------------------
-	read_vectors (vectors_fd,vectors_name);
+	/* Read the vector file and put the input values to the INPUT GATES */
+	if (read_vectors (vectors_fd,vectors_name) != 0)
+		system_error ("read_vectors");
+	fclose (vectors_fd);
+	
+	//<==================================================================
+	//logic simulation here
+	
+	
 	
 	
 	

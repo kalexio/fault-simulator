@@ -12,7 +12,7 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
     int lines = 0;
     char buf[MAXSTRING];
     int patterns = 0;
-    int i,j;
+
      
     //finds the number of lines , that is all the vectors 
     while (fgets(buf,sizeof(buf),vectors_fd) != NULL) lines++;
@@ -25,27 +25,35 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
     
     //reads the file into test_set
 	while ((c = getvector (vectors_fd, symbol)) != EOF) {
-		//printf("symbol =%s\n",symbol);
 		test_set[patterns] = xmalloc(levels[0]*sizeof(char));
 		strcpy(test_set[patterns],symbol);
-		//printf("test   =%c\n",test_set[patterns][1]);
 		patterns++;
 	}
 	
-	//-------------------------------------------------------------------------------------
-	//allocates memory for the threaddata struct of each gate
+	allocate_and_init (patterns);
+ 
+	return 0;
+	
+}
+
+
+
+void allocate_and_init (int patterns) 
+{
+	int i,j;
+	
+		//allocates memory for the threaddata struct of each gate
 	for (i = 0; i<nog; i++) {
 		net[i]->threadData =(THREADTYPE *)xmalloc(patterns*sizeof(THREADTYPE));
 		
+		//allocates memory for the pointer int of each thread data struct
 		if (net[i]->level == 0) {
-			//printf("einai h %s me level=%d kai ninput=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->ninput);
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input = xmalloc(1*sizeof(int));
 				net[i]->threadData[j].offset = net[i]->fn;
 			}
 		} 
 		else {
-			//printf("einai h %s me level=%d kai ninput=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->ninput);
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input = xmalloc(net[i]->ninput*sizeof(int));
 				net[i]->threadData[j].offset = net[i]->fn;
@@ -53,22 +61,30 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 		}
     }
     
-	
+	//puts the pattern values into the thread structs
 	for (i = 0; i<nog; i++) {
 		if (net[i]->level == 0) {
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input[0] = test_set[j][i] - '0';
-				printf("einai h pulh %s me level=%d kai stoixeio=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->threadData[j].input[0]);
-				//printf("hello =%d\n", test_set[j][i]);
 			}
 		}
 		else break;
-	} 
-
-
-	return 0;
+	}
+	
+	/*Memory checks */
+	printf("Gates fn  data\n");
+	for (i = 0; i<nog; i++) {
+		if (net[i]->level == 0) {
+			printf("%s  %d ",net[i]->symbol->symbol,net[i]->fn);
+			for (j = 0; j<patterns; j++) {
+				printf("%d",net[i]->threadData[j].input[0]);
+			}
+			printf("\n");
+		}
+	}
 	
 }
+
 
 
 char getvector (FILE* file, char* s)
@@ -96,5 +112,3 @@ char getvector (FILE* file, char* s)
 	*s = '\0';
     return(c);
 }
-
-

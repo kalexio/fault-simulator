@@ -83,5 +83,6 @@ extern char getsymbol (FILE*, char*);
  * ********************************************************************/
 extern char getvector (FILE* , char*);
 extern int read_vectors (FILE *,const char*);
+extern void allocate_and_init (int );
 extern char **test_set;
 #endif 
