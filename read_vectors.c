@@ -5,6 +5,8 @@
 
 char **test_set;
 
+
+
 int read_vectors (FILE *vectors_fd,const char* vectors_name) 
 {
 	register char c;
@@ -38,6 +40,7 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 
 
 
+
 void allocate_and_init (int patterns) 
 {
 	int i,j;
@@ -51,12 +54,20 @@ void allocate_and_init (int patterns)
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input = xmalloc(1*sizeof(int));
 				net[i]->threadData[j].offset = net[i]->fn;
+				//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
 			}
 		} 
 		else {
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input = xmalloc(net[i]->ninput*sizeof(int));
-				net[i]->threadData[j].offset = net[i]->fn;
+				if ((net[i]->fn == PO) || (net[i]->fn == NOT)) {
+					net[i]->threadData[j].offset = net[i]->fn;
+					//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
+				}
+				else {
+					net[i]->threadData[j].offset = find_offset (net[i]);
+					//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
+				}
 			}
 		}
     }
@@ -81,9 +92,47 @@ void allocate_and_init (int patterns)
 			}
 			printf("\n");
 		}
-	}
+	} 
 	
 }
+
+
+
+
+int find_offset (GATEPTR cg)
+{
+	int inputs, offset, fn;
+	
+	inputs = cg->ninput;
+	fn = cg->fn;
+	
+	switch (fn) {
+		case AND:
+			if (inputs == 2) offset = AND2;
+			else if (inputs == 3) offset = AND3;
+			else if (inputs == 4) offset = AND4;
+			break;
+		case NAND:
+			if (inputs == 2) offset = NAND2;
+			else if (inputs == 3) offset = NAND3;
+			else if (inputs == 4) offset = NAND4;
+			break;
+		case OR:
+			if (inputs == 2) offset = OR2;
+			else if (inputs == 3) offset = OR3;
+			else if (inputs == 4) offset = OR4;
+			break;
+		case NOR:
+			if (inputs == 2) offset = NOR2;
+			else if (inputs == 3) offset = NOR3;
+			else if (inputs == 4) offset = NOR4;
+			break;
+	}
+	
+	return (offset);
+	
+}
+
 
 
 

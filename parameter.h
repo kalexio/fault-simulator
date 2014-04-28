@@ -8,13 +8,28 @@
 #define 		MAXSTRING   	200
 #define 		HASHSIZE    	20000
 #define 		MAXPO           2050    /* number of primary outputs */
-#define         AND             0
-#define         NAND            1
-#define         OR              2
-#define         NOR             3
-#define         PI              4
-#define         NOT             5
-#define         PO              6
+
+#define         AND             1
+#define         NAND            3
+#define         OR              5
+#define         NOR             6
+
+#define         PI              0	//regular
+#define         PO              2   //regular
+#define 		AND2			4
+#define 		AND3			8
+#define 		AND4			16
+#define 		NAND2			32
+#define 		NAND3			36
+#define 		NAND4			44
+#define			OR2				60
+#define			OR3				64
+#define			OR4				72
+#define			NOR2			88
+#define			NOR3			92
+#define			NOR4			100
+#define         NOT             116   //regular
+
 #define 		MAXFIN          15      /* number of fanin lines */
 #define         FALSE           0       
 #define         TRUE            1

@@ -84,5 +84,12 @@ extern char getsymbol (FILE*, char*);
 extern char getvector (FILE* , char*);
 extern int read_vectors (FILE *,const char*);
 extern void allocate_and_init (int );
+extern int find_offset (GATEPTR);
 extern char **test_set;
+
+/***********************************************************************
+ * 						defined in lut.c							   *
+ * ********************************************************************/
+ extern void create_lut (int *);
+ extern int * LUT;
 #endif 
