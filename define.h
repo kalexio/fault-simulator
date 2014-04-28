@@ -82,6 +82,6 @@ extern char getsymbol (FILE*, char*);
  * 						defined in read_vectors.c					   *
  * ********************************************************************/
 extern char getvector (FILE* , char*);
-extern int read_vectors (FILE *);
+extern int read_vectors (FILE *,const char*);
 extern char **test_set;
 #endif 

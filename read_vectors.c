@@ -1,38 +1,69 @@
 #include "define.h"
 #include "structs.h"
 
-
-#define is_comment(c) (c == '#')
-#define is_white_space(c) (c == ' ' || c == '\n' || c == '\t')
 #define is_delimiter(c) (c == ':')
 
 char **test_set;
 
-int read_vectors (FILE *vectors_fd) 
+int read_vectors (FILE *vectors_fd,const char* vectors_name) 
 {
 	register char c;
     char symbol[levels[0]];
-    int i = 0;
+    int lines = 0;
+    char buf[MAXSTRING];
+    int patterns = 0;
+    int i,j;
+     
+    //finds the number of lines , that is all the vectors 
+    while (fgets(buf,sizeof(buf),vectors_fd) != NULL) lines++;
+    fclose(vectors_fd);
+    test_set = xmalloc(lines*sizeof(char *));
     
+    vectors_fd = fopen (vectors_name, "r");
+	if (vectors_fd == NULL)
+		system_error ("fopen");
     
-    test_set = xmalloc(MAXSTRING*sizeof(char *));
-    
+    //reads the file into test_set
 	while ((c = getvector (vectors_fd, symbol)) != EOF) {
 		//printf("symbol =%s\n",symbol);
-		test_set[i] = xmalloc(levels[0]*sizeof(char));
-		strcpy(test_set[i],symbol);
-		//printf("test   =%s\n",test_set[i]);
-		i++;
+		test_set[patterns] = xmalloc(levels[0]*sizeof(char));
+		strcpy(test_set[patterns],symbol);
+		//printf("test   =%c\n",test_set[patterns][1]);
+		patterns++;
 	}
 	
+	//-------------------------------------------------------------------------------------
+	//allocates memory for the threaddata struct of each gate
+	for (i = 0; i<nog; i++) {
+		net[i]->threadData =(THREADTYPE *)xmalloc(patterns*sizeof(THREADTYPE));
+		
+		if (net[i]->level == 0) {
+			//printf("einai h %s me level=%d kai ninput=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->ninput);
+			for ( j = 0; j<patterns; j++) {
+				net[i]->threadData[j].input = xmalloc(1*sizeof(int));
+				net[i]->threadData[j].offset = net[i]->fn;
+			}
+		} 
+		else {
+			//printf("einai h %s me level=%d kai ninput=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->ninput);
+			for ( j = 0; j<patterns; j++) {
+				net[i]->threadData[j].input = xmalloc(net[i]->ninput*sizeof(int));
+				net[i]->threadData[j].offset = net[i]->fn;
+			}
+		}
+    }
+    
 	
-	
-	
-	
-	
-	
-
-
+	for (i = 0; i<nog; i++) {
+		if (net[i]->level == 0) {
+			for ( j = 0; j<patterns; j++) {
+				net[i]->threadData[j].input[0] = test_set[j][i] - '0';
+				printf("einai h pulh %s me level=%d kai stoixeio=%d\n",net[i]->symbol->symbol,net[i]->level,net[i]->threadData[j].input[0]);
+				//printf("hello =%d\n", test_set[j][i]);
+			}
+		}
+		else break;
+	} 
 
 
 	return 0;

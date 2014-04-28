@@ -64,7 +64,7 @@ int main (int argc, char* const argv[])
 		system_error ("fopen");
 		
 	//synexiea simulation<------------------------------------
-	read_vectors (vectors_fd);
+	read_vectors (vectors_fd,vectors_name);
 	
 	
 	
