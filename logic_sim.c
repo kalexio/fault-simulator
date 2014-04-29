@@ -9,43 +9,65 @@
 void logic_sim ()
 {
 	GATEPTR cg;
-	int i, j, k;
+	int i, j, k, l;
 	
 	for (i = 0 ; i<maxlevel; i++) {
 		for (j = 0; j<=event_list[i].last; j++) {	
 			cg = event_list[i].list[j];
 			for ( k = 0; k<patterns; k++) {
-				if (!i) {
+				//if (i == 0) {
 					cg->result[k].output = gate_eval(cg->threadData[k]);
+					for ( l = 0; l<cg->noutput; l++){
+						cg->outlis[l]->threadData[k].input[cg->outlis[l]->threadData[k].count] = cg->result[k].output;
+						cg->outlis[l]->threadData[k].count++;
+					}
 					//prepei na kateuthinoume ta dedomena stis outlis
-				}
-				else {
+				//}
+				//else {
+					//cg->result[k].output = gate_eval(cg->threadData[k]);
 					//gate evaluation + na kateuthinoyme ta dedomena stis outlis
-				}
+				//}
 			}
 		}
-		clear(event_list[i]);
 	}
 	
 	
 	/*Memory checks */
-	printf("Gates fn data           value\n");
+	printf("Gates \tfn    \tinput     \t   output\n");
 	for (i = 0; i<nog; i++) {
-		if (net[i]->level == 0) {
+		printf("%s %d    ",net[i]->symbol->symbol,net[i]->fn);
+		for (j = 0; j<patterns; j++) {
+			if (net[i]->level == 0)
+				printf("%d||",net[i]->threadData[j].input[0]);
+			else {
+				for (k = 0; k<net[i]->ninput; k++) 
+					printf("%d",net[i]->threadData[j].input[k]);
+				    printf("||");
+				}
+		}
+		printf("\t");
+		for (j = 0; j<patterns; j++) {
+			printf("%d||",net[i]->result[j].output);
+		}		
+		printf("\n");
+	} 
+	
+	/*printf("\nGates fn data           value\n");
+	for (i = 0; i<nog; i++) {
+		if (net[i]->level == 1) {
 			printf("%s  %d ",net[i]->symbol->symbol,net[i]->fn);
 			for (j = 0; j<patterns; j++) {
-				printf("%d",net[i]->threadData[j].input[0]);
+				for (k = 0; k<net[i]->ninput; k++) 
+					printf("%d",net[i]->threadData[j].input[k]);
+				printf("||");
 			}
 			printf("\t");
 			for (j = 0; j<patterns; j++) {
-				printf("%d",net[i]->result[j].output);
+				printf("%d||",net[i]->result[j].output);
 			}
-			
 			printf("\n");
 		}
-	} 
-	
-	
+	} */
 	
 	
 }
