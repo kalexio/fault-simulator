@@ -1,6 +1,55 @@
 #include "define.h"
 #include "structs.h"
 
+#define EMPTY (-1)
+#define push(s,ele) s.list[++(s.last)]=ele
+#define pop(s) s.list[(s.last)--]
+#define clear(s) s.last=EMPTY
+
+void logic_sim ()
+{
+	GATEPTR cg;
+	int i, j, k;
+	
+	for (i = 0 ; i<maxlevel; i++) {
+		for (j = 0; j<=event_list[i].last; j++) {	
+			cg = event_list[i].list[j];
+			for ( k = 0; k<patterns; k++) {
+				if (!i) {
+					cg->result[k].output = gate_eval(cg->threadData[k]);
+					//prepei na kateuthinoume ta dedomena stis outlis
+				}
+				else {
+					//gate evaluation + na kateuthinoyme ta dedomena stis outlis
+				}
+			}
+		}
+		clear(event_list[i]);
+	}
+	
+	
+	/*Memory checks */
+	printf("Gates fn data           value\n");
+	for (i = 0; i<nog; i++) {
+		if (net[i]->level == 0) {
+			printf("%s  %d ",net[i]->symbol->symbol,net[i]->fn);
+			for (j = 0; j<patterns; j++) {
+				printf("%d",net[i]->threadData[j].input[0]);
+			}
+			printf("\t");
+			for (j = 0; j<patterns; j++) {
+				printf("%d",net[i]->result[j].output);
+			}
+			
+			printf("\n");
+		}
+	} 
+	
+	
+	
+	
+}
+
 
 int gate_eval (THREADTYPE data)
 {

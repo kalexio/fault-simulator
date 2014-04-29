@@ -94,4 +94,5 @@ extern int patterns;  //number of vectors for simulation
  * ********************************************************************/
  extern int* create_lut (int *);
  extern int gate_eval (THREADTYPE );
+ extern void logic_sim ();
 #endif 

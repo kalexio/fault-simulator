@@ -172,7 +172,7 @@ void levelize()
 			cg = event_list[i].list[j];
 			cg->index = new++;
 		}
-		clear(event_list[i]);
+		//clear(event_list[i]);
 	}
     
     

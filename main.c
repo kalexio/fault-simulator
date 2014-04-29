@@ -66,7 +66,7 @@ int main (int argc, char* const argv[])
     /* Computes the level of each gate */
     allocate_event_list();
     levelize();
-    xfree(event_list); 
+    //xfree(event_list); 
     
     
 	printf("opening vectors file= %s\n",vectors_name);
@@ -82,6 +82,7 @@ int main (int argc, char* const argv[])
 	//<==================================================================
 	//logic simulation here
 	LUT = create_lut (LUT);
+	logic_sim();
 	
 	
 	

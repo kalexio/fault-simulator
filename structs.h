@@ -32,6 +32,7 @@ typedef struct STACK {
 } STACKTYPE, *STACKPTR;
 
 typedef struct THREAD {
+	int count;   //helps for the incoming values from multiple fanins
 	int offset;
 	int input[4];
 } THREADTYPE, *THREADPTR;

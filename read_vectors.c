@@ -68,7 +68,7 @@ void allocate_and_init ()
 		else break;
 	}
 	
-	/*Memory checks */
+	/*Memory checks 
 	printf("Gates fn  data\n");
 	for (i = 0; i<nog; i++) {
 		if (net[i]->level == 0) {
@@ -78,7 +78,7 @@ void allocate_and_init ()
 			}
 			printf("\n");
 		}
-	} 
+	} */
 	
 }
 
