@@ -18,6 +18,7 @@ typedef struct GATE {
     int changed;
     short ninput;
     struct THREAD *threadData;
+    struct RESULT *result;
     struct GATE **inlis;
     short noutput;
     struct GATE **outlis;
@@ -32,7 +33,11 @@ typedef struct STACK {
 
 typedef struct THREAD {
 	int offset;
-	int *input;
+	int input[4];
 } THREADTYPE, *THREADPTR;
+
+typedef struct RESULT {
+	int output;
+} RESULTYPE, *RESULTPTR;
 
 #endif

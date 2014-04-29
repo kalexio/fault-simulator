@@ -4,7 +4,7 @@
 #define is_delimiter(c) (c == ':')
 
 char **test_set;
-
+int patterns;
 
 
 int read_vectors (FILE *vectors_fd,const char* vectors_name) 
@@ -13,7 +13,7 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
     char symbol[levels[0]];
     int lines = 0;
     char buf[MAXSTRING];
-    int patterns = 0;
+    patterns = 0;
 
      
     //finds the number of lines , that is all the vectors 
@@ -32,7 +32,7 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 		patterns++;
 	}
 	
-	allocate_and_init (patterns);
+	allocate_and_init ();
  
 	return 0;
 	
@@ -41,36 +41,22 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 
 
 
-void allocate_and_init (int patterns) 
+void allocate_and_init () 
 {
 	int i,j;
 	
-		//allocates memory for the threaddata struct of each gate
+	//allocates memory for the threaddata result struct of each gate
 	for (i = 0; i<nog; i++) {
-		net[i]->threadData =(THREADTYPE *)xmalloc(patterns*sizeof(THREADTYPE));
-		
-		//allocates memory for the pointer int of each thread data struct
-		if (net[i]->level == 0) {
-			for ( j = 0; j<patterns; j++) {
-				net[i]->threadData[j].input = xmalloc(1*sizeof(int));
+		net[i]->threadData = (THREADTYPE *)xmalloc(patterns*sizeof(THREADTYPE));
+		net[i]->result = (RESULTYPE *)xmalloc(patterns*sizeof(RESULTYPE));
+		for ( j = 0; j<patterns; j++) {
+			if ((net[i]->fn == PI) || (net[i]->fn == PO) || (net[i]->fn == NOT))
 				net[i]->threadData[j].offset = net[i]->fn;
-				//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
-			}
-		} 
-		else {
-			for ( j = 0; j<patterns; j++) {
-				net[i]->threadData[j].input = xmalloc(net[i]->ninput*sizeof(int));
-				if ((net[i]->fn == PO) || (net[i]->fn == NOT)) {
-					net[i]->threadData[j].offset = net[i]->fn;
-					//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
-				}
-				else {
-					net[i]->threadData[j].offset = find_offset (net[i]);
-					//printf("pulh=%s fn=%d ofsset=%d\n",net[i]->symbol->symbol,net[i]->fn,net[i]->threadData[j].offset);
-				}
-			}
+			else
+				net[i]->threadData[j].offset = find_offset (net[i]);
 		}
     }
+    
     
 	//puts the pattern values into the thread structs
 	for (i = 0; i<nog; i++) {

@@ -1,9 +1,18 @@
 #include "define.h"
 #include "structs.h"
 
-int * LUT;
 
-void create_lut (int * LUT)
+int gate_eval (THREADTYPE data)
+{
+	int index,out;
+
+	index = data.offset + data.input[0]*1 + data.input[1]*2 + data.input[2]*4 + data.input[3]*8;
+	out = LUT[index];
+	
+	return out;
+} 
+
+int* create_lut (int * LUT)
 {
 	LUT = xmalloc(118*sizeof(int));
 	//PI
@@ -139,4 +148,6 @@ void create_lut (int * LUT)
 	//NOT
 	LUT[116] = 1;
 	LUT[117] = 0;
+	
+	return LUT;
 }

@@ -20,6 +20,7 @@ extern const char* circuit_name;
 extern const char* fault_name;
 extern const char* vectors_name;
 extern int nodummy;
+extern int* LUT;
 
 extern void option_set (int argc, char* const argv[]);
 extern void handle_files (const char*,const char*);
@@ -72,7 +73,7 @@ extern char getsymbol (FILE*, char*);
  extern int maxlevel;
  extern STACKPTR event_list;
  extern STACKTYPE stack1, stack2;
- extern int *levels;
+ extern int *levels;  //number of gates in each leve
  extern int compute_level ();
  extern void allocate_stacks();
  extern void allocate_event_list();
@@ -83,13 +84,14 @@ extern char getsymbol (FILE*, char*);
  * ********************************************************************/
 extern char getvector (FILE* , char*);
 extern int read_vectors (FILE *,const char*);
-extern void allocate_and_init (int );
+extern void allocate_and_init ();
 extern int find_offset (GATEPTR);
 extern char **test_set;
+extern int patterns;  //number of vectors for simulation
 
 /***********************************************************************
- * 						defined in lut.c							   *
+ * 						defined in logic_sim.c							   *
  * ********************************************************************/
- extern void create_lut (int *);
- extern int * LUT;
+ extern int* create_lut (int *);
+ extern int gate_eval (THREADTYPE );
 #endif 

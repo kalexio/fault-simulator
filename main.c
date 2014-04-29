@@ -6,6 +6,7 @@ const char* fault_name;
 const char* vectors_name;
 int nodummy;
 
+int* LUT;
 FILE *circuit_fd, *fault_fd, *vectors_fd;
 
 /* Description of long options for get_opt long */
@@ -80,8 +81,7 @@ int main (int argc, char* const argv[])
 	
 	//<==================================================================
 	//logic simulation here
-	
-	
+	LUT = create_lut (LUT);
 	
 	
 	
