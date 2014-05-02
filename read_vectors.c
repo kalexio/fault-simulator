@@ -2,6 +2,7 @@
 #include "structs.h"
 
 #define is_delimiter(c) (c == ':')
+#define is_comment(c) (c=='#')
 
 char **test_set;
 int patterns;
@@ -31,7 +32,7 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 		strcpy(test_set[patterns],symbol);
 		patterns++;
 	}
-	
+	printf("patterns %d\n",patterns);
 	allocate_and_init ();
  
 	return 0;
@@ -63,10 +64,14 @@ void allocate_and_init ()
 		if (net[i]->level == 0) {
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input[0] = test_set[j][i] - '0';
+				net[i]->threadData[j].input[1] = test_set[j][i] - '0';
+				net[i]->threadData[j].input[2] = test_set[j][i] - '0';
+				net[i]->threadData[j].input[3] = test_set[j][i] - '0';
 			}
 		}
 		else break;
 	}
+	
 	
 	/*Memory checks 
 	printf("Gates fn  data\n");
@@ -126,9 +131,14 @@ char getvector (FILE* file, char* s)
 {
 	register char c;
     int flag = 0;
+    int comm = 0;
 
     while ((c = getc (file)) != EOF) {
-		
+	    if(is_comment(c)) { comm=1; continue; }
+		if(comm==1) {
+			if(c=='\n') comm=0;
+			continue;
+		}
 		if (!flag) {
 			if (is_delimiter(c)) flag = 1;
 			continue;

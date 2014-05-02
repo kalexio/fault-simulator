@@ -89,7 +89,7 @@ int main (int argc, char* const argv[])
 	
 	
 	if ( fault_name == NULL ) {
-		printf("We are done\n");
+		printf("\nWe are done\n");
 		return 0;
 	}
 	
@@ -104,7 +104,7 @@ int main (int argc, char* const argv[])
     
     
     
-    printf("We are done\n");
+    printf("\nWe are done\n");
     return 0;
 }
 

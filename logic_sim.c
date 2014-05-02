@@ -16,7 +16,7 @@ void logic_sim ()
 			cg = event_list[i].list[j];
 			for ( k = 0; k<patterns; k++) {
 				//if (i == 0) {
-					cg->result[k].output = gate_eval(cg->threadData[k]);
+					cg->result[k].output = gate_eval(cg->threadData[k]); //υπολογισμος εξοδου πυλης 
 					for ( l = 0; l<cg->noutput; l++){
 						cg->outlis[l]->threadData[k].input[cg->outlis[l]->threadData[k].count] = cg->result[k].output;
 						cg->outlis[l]->threadData[k].count++;
@@ -32,7 +32,7 @@ void logic_sim ()
 	}
 	
 	
-	/*Memory checks */
+	/*Memory checks 
 	printf("Gates \tfn    \tinput     \t   output\n");
 	for (i = 0; i<nog; i++) {
 		printf("%s %d    ",net[i]->symbol->symbol,net[i]->fn);
@@ -50,24 +50,37 @@ void logic_sim ()
 			printf("%d||",net[i]->result[j].output);
 		}		
 		printf("\n");
-	} 
-	
-	/*printf("\nGates fn data           value\n");
-	for (i = 0; i<nog; i++) {
-		if (net[i]->level == 1) {
-			printf("%s  %d ",net[i]->symbol->symbol,net[i]->fn);
-			for (j = 0; j<patterns; j++) {
-				for (k = 0; k<net[i]->ninput; k++) 
-					printf("%d",net[i]->threadData[j].input[k]);
-				printf("||");
-			}
-			printf("\t");
-			for (j = 0; j<patterns; j++) {
-				printf("%d||",net[i]->result[j].output);
-			}
-			printf("\n");
-		}
 	} */
+	
+	
+	
+	
+	printf("\nPrinting the logic sim results\n");
+	for (i = 0; i<nopi; i++) {
+		printf("%s\t",net[primaryin[i]]->symbol->symbol);
+	}
+	printf("-->\n");
+
+	for (i = 0; i<patterns; i++) {
+		for (j = 0; j<levels[0]; j++) {
+			printf("%d\t",net[primaryin[j]]->threadData[i].input[0]);
+		}
+		printf("-->\n");
+	}
+	
+	printf("\n");
+	for (i = 0; i<nopo; i++) {
+		printf("%s\t",net[primaryout[i]]->symbol->symbol);
+	}
+	printf("\n");
+	for (i = 0; i<patterns; i++) {
+		for (j = 0; j<nopo; j++) {
+			printf("%d\t\t",net[primaryout[j]]->result[i].output);
+		}
+		printf("\n");
+	}
+	
+	
 	
 	
 }
