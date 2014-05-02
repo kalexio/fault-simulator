@@ -79,10 +79,21 @@ int main (int argc, char* const argv[])
 		system_error ("read_vectors");
 	fclose (vectors_fd);
 	
-	//<==================================================================
+	
+	
+	
 	//logic simulation here
 	LUT = create_lut (LUT);
 	logic_sim();
+	print_logic_sim();
+	
+	
+	
+	//<----------------------------------------------------------------
+	//fault simulation here
+	create_fault_list ();
+	print_fault_list ();
+	
 	
 	
 	

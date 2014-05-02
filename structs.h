@@ -41,4 +41,9 @@ typedef struct RESULT {
 	int output;
 } RESULTYPE, *RESULTPTR;
 
+typedef struct FAULT {
+	struct GATE *gate;
+	int SA;
+} FAULTYPE, *FAULTPTR;
+
 #endif

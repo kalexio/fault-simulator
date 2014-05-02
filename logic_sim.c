@@ -52,10 +52,16 @@ void logic_sim ()
 		printf("\n");
 	} */
 	
+}
+
+
+
+
+void print_logic_sim ()
+{
+	int i, j;
 	
-	
-	
-	printf("\nPrinting the logic sim results\n");
+	printf("\nPrinting the logic sim results\n\n");
 	for (i = 0; i<nopi; i++) {
 		printf("%s\t",net[primaryin[i]]->symbol->symbol);
 	}
@@ -79,11 +85,14 @@ void logic_sim ()
 		}
 		printf("\n");
 	}
-	
+	printf("\nEnd of logic simulation \n\n");	
+
 	
 	
 	
 }
+
+
 
 
 int gate_eval (THREADTYPE data)

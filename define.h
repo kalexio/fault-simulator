@@ -90,9 +90,17 @@ extern char **test_set;
 extern int patterns;  //number of vectors for simulation
 
 /***********************************************************************
- * 						defined in logic_sim.c							   *
- * ********************************************************************/
+* 						defined in logic_sim.c						   *
+*********************************************************************/
  extern int* create_lut (int *);
  extern int gate_eval (THREADTYPE );
  extern void logic_sim ();
+ extern void print_logic_sim();
+ 
+/**********************************************************************
+* 					defined in fault_sim.c                         *
+* *********************************************************************/
+extern FAULTPTR fault_list; 
+extern void create_fault_list ();
+void print_fault_list ();
 #endif 
