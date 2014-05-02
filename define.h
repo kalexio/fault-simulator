@@ -101,6 +101,12 @@ extern int patterns;  //number of vectors for simulation
 * 					defined in fault_sim.c                         *
 * *********************************************************************/
 extern FAULTPTR fault_list; 
+extern int total_faults;
 extern void create_fault_list ();
-void print_fault_list ();
+extern void print_fault_list ();
+extern void allocate_and_init_faults ();
+extern void fault_sim ();
+extern void set_injection_bits(FAULTYPE ); 
+extern void print_fault_sim ();
+int fault_eval (THREADFAULTYPE );
 #endif 

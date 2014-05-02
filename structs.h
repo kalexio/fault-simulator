@@ -18,6 +18,7 @@ typedef struct GATE {
     int changed;
     short ninput;
     struct THREAD *threadData;
+    struct THREADFAULT *faultData;
     struct RESULT *result;
     struct GATE **inlis;
     short noutput;
@@ -36,6 +37,14 @@ typedef struct THREAD {
 	int offset;
 	int input[4];
 } THREADTYPE, *THREADPTR;
+
+typedef struct THREADFAULT {
+	int count;   //helps for the incoming values from multiple fanins
+	int offset;
+	int input[4];
+	int m0;
+	int m1;
+} THREADFAULTYPE, *THREADFAULTPTR;
 
 typedef struct RESULT {
 	int output;

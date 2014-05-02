@@ -11,6 +11,7 @@ void logic_sim ()
 	GATEPTR cg;
 	int i, j, k, l;
 	
+	
 	for (i = 0 ; i<maxlevel; i++) {
 		for (j = 0; j<=event_list[i].last; j++) {	
 			cg = event_list[i].list[j];

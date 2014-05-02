@@ -92,8 +92,8 @@ int main (int argc, char* const argv[])
 	//<----------------------------------------------------------------
 	//fault simulation here
 	create_fault_list ();
-	print_fault_list ();
-	
+	//print_fault_list ();
+	fault_sim();
 	
 	
 	
