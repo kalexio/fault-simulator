@@ -85,7 +85,8 @@ int main (int argc, char* const argv[])
 	//logic simulation here
 	LUT = create_lut (LUT);
 	logic_sim();
-	print_logic_sim();
+
+    print_logic_sim();
 	
 	
 	
