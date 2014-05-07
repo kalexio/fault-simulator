@@ -57,17 +57,6 @@ void print_fault_sim (FILE *f)
 {
 	int i, j;
 	
-	/*for (i = 0; i<nopi; i++) {
-		printf("%s\t",net[primaryin[i]]->symbol->symbol);
-	}
-	printf("-->\n");
-
-	for (i = 0; i<patterns; i++) {
-		for (j = 0; j<levels[0]; j++) {
-			printf("%d\t",net[primaryin[j]]->threadData[i].input[0]);
-		}
-		printf("-->\n");
-	} */
 	
 	fprintf(f,"\n");
 
@@ -76,11 +65,7 @@ void print_fault_sim (FILE *f)
 			fprintf(f,"%d",net[primaryout[j]]->result[i].output);
 		}
 		fprintf(f,"\n");
-	}
-
-	
-	
-	
+	}	
 }
 
 
@@ -153,9 +138,9 @@ void allocate_and_init_faults ()
 		if (net[i]->level == 0) {
 			for ( j = 0; j<patterns; j++) {
 				net[i]->faultData[j].input[0] = test_set[j][i] - '0';
-				net[i]->faultData[j].input[1] = test_set[j][i] - '0';
-				net[i]->faultData[j].input[2] = test_set[j][i] - '0';
-				net[i]->faultData[j].input[3] = test_set[j][i] - '0';
+				net[i]->faultData[j].input[1] = 0;
+				net[i]->faultData[j].input[2] = 0;
+				net[i]->faultData[j].input[3] = 0;
 			}
 		}
 		else break;
