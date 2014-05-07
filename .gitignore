@@ -4,3 +4,8 @@ c18.bench
 pattern
 .project
 .gitignore
+*.test
+*.bench
+faults
+mypatterns
+880pat

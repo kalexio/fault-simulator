@@ -80,6 +80,7 @@ extern char getsymbol (FILE*, char*);
  extern void allocate_stacks();
  extern void allocate_event_list();
  extern void levelize();
+ extern void place_PO ();
 
 /***********************************************************************
  * 						defined in read_vectors.c					   *

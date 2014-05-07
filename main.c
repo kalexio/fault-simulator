@@ -61,7 +61,7 @@ int main (int argc, char* const argv[])
     /* Compute the levels of the circuit */
     allocate_stacks();
     maxlevel = compute_level();
-
+	place_PO();
 
 	
     printf("the max level = %d\n",maxlevel);
@@ -102,12 +102,11 @@ int main (int argc, char* const argv[])
 
     print_logic_sim();
 	
-	
-	
+
 	//<----------------------------------------------------------------
 	//fault simulation here
-	//create_fault_list ();
-	//print_fault_list ();
+	create_fault_list ();
+	print_fault_list();
 	//fault_sim();
 	
 	

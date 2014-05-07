@@ -181,6 +181,7 @@ void create_fault_list ()
 	int j = 0;
 	
 	total_faults = 2*(nog-levels[maxlevel-1]);
+	printf("total fault =%d\n",total_faults);
 	
 	fault_list = (FAULTYPE *)xmalloc(total_faults*sizeof(FAULTYPE));
 	//printf("%d",event_list[0].last+1);
@@ -201,7 +202,7 @@ void print_fault_list ()
 {
 	int i;
 	for (i= 0; i<total_faults; i++) 
-		printf("%s / %d \n",fault_list[i].gate->symbol->symbol,fault_list[i].SA);
+		printf("%s / %d\n",fault_list[i].gate->symbol->symbol,fault_list[i].SA);
 }
 
 

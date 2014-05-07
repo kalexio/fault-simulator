@@ -133,7 +133,24 @@ int compute_level ()
 	return (maxlevel+1);
 	
 }
-
+///////////////////////////////place the PO at the last level
+void place_PO () 
+{
+	register int i;
+	GATEPTR cg;	
+	
+	for (i = 0; i<nog; i++) {
+		cg = net[i];
+		if(cg->fn == PO) {
+			cg->level = maxlevel-1 ;
+		} 
+    }
+	
+	
+	
+	
+}
+///////////////////////////////
 
 void allocate_event_list()
 {
