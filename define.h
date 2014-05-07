@@ -21,6 +21,8 @@ extern const char* fault_name;
 extern const char* vectors_name;
 extern int nodummy;
 extern int* LUT;
+extern char test_name[100];
+
 
 extern void option_set (int argc, char* const argv[]);
 extern void handle_files (const char*,const char*);

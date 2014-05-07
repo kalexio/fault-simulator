@@ -6,10 +6,7 @@
 #define pop(s) s.list[(s.last)--]
 #define clear(s) s.last=EMPTY
 #define is_empty(s) (s.last<0)
-#define delete_last(s) --(s.last)
-#define delete(s,i) s.list[i] = s.list[(s.last)--]
-#define copy(s1,s2,i) s2.last = s1.last;\
-		      for (i =s1.last; i>=0; i--) s2.list[i]=s1.list[i]
+
 
 
 STACKTYPE stack1, stack2;
@@ -192,8 +189,8 @@ void levelize()
 	
 	
 	
-	/* Memory data check */
-	/*for (i = 0; i<nog; i++) {
+	/* Memory data check 
+	for (i = 0; i<nog; i++) {
 		cg = net[i];
 		printf("\nseira i=%d index=%d\n",i,cg->index);
 		printf(" einai h pulh= %s me fanin= %d kai fanout= %d fn=%d level=%d \n",cg->symbol->symbol,cg->ninput,cg->noutput,cg->fn,cg->level);

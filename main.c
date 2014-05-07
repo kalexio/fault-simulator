@@ -5,6 +5,7 @@ const char* circuit_name;
 const char* fault_name;
 const char* vectors_name;
 int nodummy;
+char test_name[100]="";
 
 int* LUT;
 FILE *circuit_fd, *fault_fd, *vectors_fd;
@@ -33,6 +34,8 @@ static void print_usage (int is_error);
 
 int main (int argc, char* const argv[])
 {
+	int i,j;
+	char c;
 	nodummy = 0;
     program_name = argv[0];
     
@@ -58,8 +61,8 @@ int main (int argc, char* const argv[])
     /* Compute the levels of the circuit */
     allocate_stacks();
     maxlevel = compute_level();
-    xfree(stack1.list); 
-	xfree(stack2.list); 
+
+
 	
     printf("the max level = %d\n",maxlevel);
     
@@ -77,8 +80,7 @@ int main (int argc, char* const argv[])
 	/* Read the vector file and put the input values to the INPUT GATES */
 	if (read_vectors (vectors_fd,vectors_name) != 0)
 		system_error ("read_vectors");
-	fclose (vectors_fd);
-	
+	//fclose (vectors_fd);  //valgrind mistake
 	
 	
 	
@@ -86,21 +88,33 @@ int main (int argc, char* const argv[])
 	LUT = create_lut (LUT);
 	logic_sim();
 
+	i=0; j=0;
+	if(test_name[0]=='\0') {
+		while((c=circuit_name[i++])!='\0') {
+			if(c=='/') j=0;
+			else if(c=='.') break;
+			else test_name[j++]=c;
+		}
+		test_name[j]='\0';
+		strcat(test_name,".test");
+	}
+
+
     print_logic_sim();
 	
 	
 	
 	//<----------------------------------------------------------------
 	//fault simulation here
-	create_fault_list ();
+	//create_fault_list ();
 	//print_fault_list ();
-	fault_sim();
+	//fault_sim();
 	
 	
 	
 	
 	
-	if ( fault_name == NULL ) {
+	/*if ( fault_name == NULL ) {
 		printf("\nWe are done\n");
 		return 0;
 	}
@@ -108,7 +122,7 @@ int main (int argc, char* const argv[])
 	printf("opening fault file= %s\n",fault_name);
     vectors_fd = fopen (vectors_name, "r");
 	if (vectors_fd == NULL)
-		system_error ("fopen");
+		system_error ("fopen"); */
 	
 	
 		

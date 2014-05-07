@@ -62,34 +62,30 @@ void print_logic_sim ()
 {
 	int i, j;
 	
-	printf("\nPrinting the logic sim results\n\n");
-	for (i = 0; i<nopi; i++) {
-		printf("%s\t",net[primaryin[i]]->symbol->symbol);
-	}
-	printf("-->\n");
+	FILE *f;
+	
+
+   if ((f = fopen(test_name,"w")) == NULL){
+	        fprintf(stderr,"Fatal error: %s file open error\n",test_name);
+      exit(0);
+   } 
+	
+	fprintf(f,"\nPrinting the logic sim results\n\n");
 
 	for (i = 0; i<patterns; i++) {
 		for (j = 0; j<levels[0]; j++) {
-			printf("%d\t",net[primaryin[j]]->threadData[i].input[0]);
+			fprintf(f,"%d",net[primaryin[j]]->threadData[i].input[0]);
 		}
-		printf("-->\n");
-	}
-	
-	printf("\n");
-	for (i = 0; i<nopo; i++) {
-		printf("%s\t",net[primaryout[i]]->symbol->symbol);
-	}
-	printf("\n");
-	for (i = 0; i<patterns; i++) {
+		fprintf(f," --> ");
 		for (j = 0; j<nopo; j++) {
-			printf("%d\t\t",net[primaryout[j]]->result[i].output);
+			fprintf(f,"%d",net[primaryout[j]]->result[i].output);
 		}
-		printf("\n");
+		fprintf(f,"\n");
 	}
-	printf("\nEnd of logic simulation \n\n");	
+	fprintf(f,"\nEnd of logic simulation \n\n");	
 
 	
-	
+	fclose(f);
 	
 }
 

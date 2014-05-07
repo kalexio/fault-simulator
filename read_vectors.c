@@ -12,27 +12,36 @@ int read_vectors (FILE *vectors_fd,const char* vectors_name)
 {
 	register char c;
     char symbol[levels[0]];
-    int lines = 0;
-    char buf[MAXSTRING];
+    //int lines = 0;
+    //char buf[MAXSTRING];
     patterns = 0;
 
-     
-    //finds the number of lines , that is all the vectors 
-    while (fgets(buf,sizeof(buf),vectors_fd) != NULL) lines++;
-    fclose(vectors_fd);
-    test_set = xmalloc(lines*sizeof(char *));
     
+    while ((c = getvector (vectors_fd, symbol)) != EOF) {
+		//printf("len %d\n",strlen(symbol));
+		//printf("symbol = %s\n",symbol);
+		patterns++;
+	}
+    
+    test_set = (char **)xmalloc(patterns*sizeof(char *));
+    
+    fclose(vectors_fd);
     vectors_fd = fopen (vectors_name, "r");
 	if (vectors_fd == NULL)
 		system_error ("fopen");
     
+    
     //reads the file into test_set
+    patterns = 0;
+    //printf(" patterns %d\n",patterns);
 	while ((c = getvector (vectors_fd, symbol)) != EOF) {
-		test_set[patterns] = xmalloc(levels[0]*sizeof(char));
+		//printf("here patterns %d\n",patterns);
+		test_set[patterns] = xmalloc((levels[0]+1)*sizeof(char));
 		strcpy(test_set[patterns],symbol);
+		//printf("symbol = %s\n",test_set[patterns]);
 		patterns++;
-	}
-	printf("patterns %d\n",patterns);
+	} 
+	printf("End patterns %d\n",patterns);
 	allocate_and_init ();
  
 	return 0;
@@ -64,9 +73,9 @@ void allocate_and_init ()
 		if (net[i]->level == 0) {
 			for ( j = 0; j<patterns; j++) {
 				net[i]->threadData[j].input[0] = test_set[j][i] - '0';
-				net[i]->threadData[j].input[1] = test_set[j][i] - '0';
-				net[i]->threadData[j].input[2] = test_set[j][i] - '0';
-				net[i]->threadData[j].input[3] = test_set[j][i] - '0';
+				net[i]->threadData[j].input[1] = 0;
+				net[i]->threadData[j].input[2] = 0;
+				net[i]->threadData[j].input[3] = 0;
 			}
 		}
 		else break;
@@ -84,6 +93,7 @@ void allocate_and_init ()
 			printf("\n");
 		}
 	} */
+	
 	
 }
 

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra
+CFLAGS=-Wall -Wextra -g
 DEPS = define.h parameter.h structs.h
 OBJ = main.o common.o read_circuit.o hashes.o structures.o read_vectors.o logic_sim.o fault_sim.o
 
