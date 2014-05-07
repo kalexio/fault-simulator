@@ -9,6 +9,11 @@ void fault_sim ()
 	GATEPTR cg;
 	int n, i, j, k, l;
 	
+	if ((test_fd = fopen(test_name,"a")) == NULL){
+	    fprintf(stderr,"Fatal error: %s file open error\n",test_name);
+		exit(0);
+	} 
+	
 	allocate_and_init_faults ();
 	for (n = 0; n<total_faults; n++) {
 		set_injection_bits(fault_list[n]);
@@ -32,9 +37,9 @@ void fault_sim ()
 				}
 			}
 		}
-		printf("==========================================================\n");	
-		printf("fault at gate=%s stack-at=%d\n",fault_list[n].gate->symbol->symbol,fault_list[n].SA);
-		print_fault_sim ();
+		fprintf(test_fd,"==========================================================\n");	
+		fprintf(test_fd,"fault at gate=%s stack-at=%d\n",fault_list[n].gate->symbol->symbol,fault_list[n].SA);
+		print_fault_sim (test_fd);
 		//clean the counts
 		for (i = 0; i<nog; i++) {
 			for ( j = 0; j<patterns; j++) 
@@ -43,12 +48,12 @@ void fault_sim ()
 		
 	}
 	
-	
+	fclose(test_fd);
 	
 }
 
 
-void print_fault_sim ()
+void print_fault_sim (FILE *f)
 {
 	int i, j;
 	
@@ -64,16 +69,13 @@ void print_fault_sim ()
 		printf("-->\n");
 	} */
 	
-	printf("\n");
-	for (i = 0; i<nopo; i++) {
-		printf("%s\t",net[primaryout[i]]->symbol->symbol);
-	}
-	printf("\n");
+	fprintf(f,"\n");
+
 	for (i = 0; i<patterns; i++) {
 		for (j = 0; j<nopo; j++) {
-			printf("%d\t\t",net[primaryout[j]]->result[i].output);
+			fprintf(f,"%d",net[primaryout[j]]->result[i].output);
 		}
-		printf("\n");
+		fprintf(f,"\n");
 	}
 
 	

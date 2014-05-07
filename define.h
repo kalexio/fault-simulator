@@ -15,7 +15,7 @@
 /***********************************************************************
  *              defined in main.c
  * ********************************************************************/
-extern FILE *circuit_fd, *fault_fd, *vectors_fd;
+extern FILE *circuit_fd, *fault_fd, *vectors_fd,*test_fd;
 extern const char* circuit_name;
 extern const char* fault_name;
 extern const char* vectors_name;
@@ -110,6 +110,6 @@ extern void print_fault_list ();
 extern void allocate_and_init_faults ();
 extern void fault_sim ();
 extern void set_injection_bits(FAULTYPE ); 
-extern void print_fault_sim ();
+extern void print_fault_sim (FILE *);
 int fault_eval (THREADFAULTYPE );
 #endif 

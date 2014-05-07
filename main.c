@@ -8,7 +8,7 @@ int nodummy;
 char test_name[100]="";
 
 int* LUT;
-FILE *circuit_fd, *fault_fd, *vectors_fd;
+FILE *circuit_fd, *fault_fd, *vectors_fd,*test_fd;
 
 /* Description of long options for get_opt long */
 static const struct option long_options[] = {
@@ -106,8 +106,8 @@ int main (int argc, char* const argv[])
 	//<----------------------------------------------------------------
 	//fault simulation here
 	create_fault_list ();
-	print_fault_list();
-	//fault_sim();
+	//print_fault_list();
+	fault_sim();
 	
 	
 	
