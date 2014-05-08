@@ -1,4 +1,6 @@
 #include <getopt.h>
+#include <time.h>
+#include <sys/time.h>
 #include "define.h"
 
 const char* circuit_name;
@@ -38,12 +40,19 @@ int main (int argc, char* const argv[])
 	char c;
 	nodummy = 0;
     program_name = argv[0];
+	double u1, u2, total = 0;
+	struct timeval tv;
     
     /* Get the input arguments */
     option_set(argc,argv);
     
     /* Handle the input files */
     handle_files (circuit_name,vectors_name);
+    
+    
+    gettimeofday(&tv,NULL);
+   	u1 = tv.tv_sec*1.0e6 + tv.tv_usec;
+
 
 	/* Read the circuit file and make the structures */
     if (read_circuit (circuit_fd) < 0)
@@ -71,11 +80,21 @@ int main (int argc, char* const argv[])
     levelize();
     //xfree(event_list); 
     
+    gettimeofday(&tv,NULL);
+    u2 = tv.tv_sec*1.0e6 + tv.tv_usec;
+    
+    total=(u2-u1);
+    
+    printf("Time for construction of data structures: %f usec\n", total);
+    total= 0;
     
 	printf("opening vectors file= %s\n",vectors_name);
     vectors_fd = fopen (vectors_name, "r");
 	if (vectors_fd == NULL)
 		system_error ("fopen");
+		
+	gettimeofday(&tv,NULL);
+   	u1 = tv.tv_sec*1.0e6 + tv.tv_usec;
 		
 	/* Read the vector file and put the input values to the INPUT GATES */
 	if (read_vectors (vectors_fd,vectors_name) != 0)
@@ -99,17 +118,33 @@ int main (int argc, char* const argv[])
 		strcat(test_name,".test");
 	}
 
+	gettimeofday(&tv,NULL);
+    u2 = tv.tv_sec*1.0e6 + tv.tv_usec;
+    
+    total=(u2-u1);
+    
+    printf("Time for logic simulation: %f usec\n", total);
+    total= 0;
 
     print_logic_sim();
 	
 
 	//<----------------------------------------------------------------
 	//fault simulation here
+	gettimeofday(&tv,NULL);
+   	u1 = tv.tv_sec*1.0e6 + tv.tv_usec;	
+	
 	create_fault_list ();
 	//print_fault_list();
 	fault_sim();
 	
-	
+	gettimeofday(&tv,NULL);
+    u2 = tv.tv_sec*1.0e6 + tv.tv_usec;
+    
+    total=(u2-u1);
+    
+    printf("Time for fault simulation: %f usec\n", total);
+    total= 0;
 	
 	
 	
@@ -197,3 +232,4 @@ static void print_usage (int is_error)
     fprintf (is_error ? stderr : stdout, usage_template, program_name);
     exit (is_error ? 1 : 0);
 }
+
