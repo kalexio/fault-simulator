@@ -8,4 +8,4 @@ pattern
 *.bench
 faults
 mypatterns
-880pat
+*pat
