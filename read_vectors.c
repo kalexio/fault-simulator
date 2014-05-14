@@ -112,6 +112,7 @@ int find_offset (GATEPTR cg)
 			if (inputs == 2) offset = AND2;
 			else if (inputs == 3) offset = AND3;
 			else if (inputs == 4) offset = AND4;
+			else if (inputs == 5) offset = AND5;
 			break;
 		case NAND:
 			if (inputs == 2) offset = NAND2;
@@ -122,6 +123,7 @@ int find_offset (GATEPTR cg)
 			if (inputs == 2) offset = OR2;
 			else if (inputs == 3) offset = OR3;
 			else if (inputs == 4) offset = OR4;
+			else if (inputs == 5) offset = OR5;
 			break;
 		case NOR:
 			if (inputs == 2) offset = NOR2;

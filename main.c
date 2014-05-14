@@ -126,7 +126,7 @@ int main (int argc, char* const argv[])
     printf("Time for logic simulation: %f usec\n", total);
     total= 0;
 
-    print_logic_sim();
+    //print_logic_sim();
 	
 
 	//<----------------------------------------------------------------

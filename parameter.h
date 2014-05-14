@@ -19,16 +19,18 @@
 #define 		AND2			4
 #define 		AND3			8
 #define 		AND4			16
-#define 		NAND2			32
-#define 		NAND3			36
-#define 		NAND4			44
-#define			OR2				60
-#define			OR3				64
-#define			OR4				72
-#define			NOR2			88
-#define			NOR3			92
-#define			NOR4			100
-#define         NOT             116   //regular
+#define			AND5			32
+#define 		NAND2			64
+#define 		NAND3			68
+#define 		NAND4			76
+#define			OR2				92
+#define			OR3				96
+#define			OR4				104
+#define 		OR5				120
+#define			NOR2			152
+#define			NOR3			156
+#define			NOR4			164
+#define         NOT             180   //regular
 
 #define 		MAXFIN          15      /* number of fanin lines */
 #define         FALSE           0       
