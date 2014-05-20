@@ -7,3 +7,5 @@ pattern
 *.test
 faults
 mypatterns
+.cproject
+*.flt
