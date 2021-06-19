@@ -1,11 +1,2 @@
-main
-c17.bench
-c18.bench
-pattern
-.project
 .gitignore
-*.test
-faults
-mypatterns
-.cproject
-*.flt
+/build
